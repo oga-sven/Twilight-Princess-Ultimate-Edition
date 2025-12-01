@@ -392,14 +392,12 @@ cflags_revolution_base = [
 cflags_revolution_retail = [
     *cflags_revolution_base,
     "-O4,p",
-    "-DSDK_SEP2006",
 ]
 
 cflags_revolution_debug = [
     *cflags_revolution_base,
     "-opt off",
     "-DDEBUG=1",
-    "-DSDK_AUG2010",
 ]
 
 # Framework flags
@@ -475,7 +473,15 @@ def RevolutionLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         return {
             "lib": lib_name,
             "mw_version": "Wii/1.0",
-            "cflags": cflags_revolution_debug,
+            "cflags": [*cflags_revolution_debug, "-DSDK_AUG2010"],
+            "progress_category": "sdk",
+            "objects": objects,
+        }
+    elif config.version == "Shield":
+        return {
+            "lib": lib_name,
+            "mw_version": "Wii/1.0",
+            "cflags": [*cflags_revolution_retail, "-DSDK_AUG2010"],
             "progress_category": "sdk",
             "objects": objects,
         }
@@ -483,7 +489,7 @@ def RevolutionLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         return {
             "lib": lib_name,
             "mw_version": "GC/3.0a3",
-            "cflags": cflags_revolution_retail,
+            "cflags": [*cflags_revolution_retail, "-DSDK_SEP2006"],
             "progress_category": "sdk",
             "objects": objects,
         }
@@ -570,7 +576,7 @@ config.libs = [
             Object(MatchingFor(ALL_GCN), "m_Do/m_Do_graphic.cpp"),
             Object(MatchingFor(ALL_GCN), "m_Do/m_Do_machine.cpp"),
             Object(MatchingFor(ALL_GCN), "m_Do/m_Do_mtx.cpp"),
-            Object(Equivalent, "m_Do/m_Do_ext.cpp"), # weak func order
+            Object(Modded, "m_Do/m_Do_ext.cpp"), # weak func order
             Object(MatchingFor(ALL_GCN), "m_Do/m_Do_lib.cpp"),
             Object(MatchingFor(ALL_GCN), "m_Do/m_Do_Reset.cpp"),
             Object(MatchingFor(ALL_GCN), "m_Do/m_Do_dvd_thread.cpp"),
@@ -726,7 +732,7 @@ config.libs = [
             Object(MatchingFor(ALL_GCN, "Shield", "ShieldD"), "d/d_bg_s_wtr_chk.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_bg_w.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_bg_w_base.cpp"),
-            Object(NonMatching, "d/d_bg_w_kcol.cpp"),
+            Object(MatchingFor(ALL_GCN), "d/d_bg_w_kcol.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_bg_w_sv.cpp"),
             Object(Equivalent, "d/d_cc_d.cpp"), # weak func order
             Object(MatchingFor(ALL_GCN), "d/d_cc_mass_s.cpp"),
@@ -903,7 +909,7 @@ config.libs = [
             Object(MatchingFor(ALL_GCN), "SSystem/SComponent/c_m3d_g_sph.cpp"),
             Object(MatchingFor(ALL_GCN), "SSystem/SComponent/c_m3d_g_tri.cpp"), # debug weak func order
             Object(MatchingFor("ShieldD"), "SSystem/SComponent/c_m3d_g_vtx.cpp"),
-            Object(MatchingFor(ALL_GCN), "SSystem/SComponent/c_lib.cpp"),
+            Object(Modded, "SSystem/SComponent/c_lib.cpp"),
             Object(MatchingFor(ALL_GCN), "SSystem/SComponent/c_angle.cpp"),
             Object(MatchingFor(ALL_GCN), "SSystem/SStandard/s_basic.cpp"),
         ],
@@ -1247,7 +1253,7 @@ config.libs = [
             Object(MatchingFor(ALL_GCN), "JSystem/J3DGraphAnimator/J3DModelData.cpp"),
             Object(MatchingFor(ALL_GCN), "JSystem/J3DGraphAnimator/J3DMtxBuffer.cpp"),
             Object(MatchingFor(ALL_GCN), "JSystem/J3DGraphAnimator/J3DModel.cpp"),
-            Object(MatchingFor(ALL_GCN), "JSystem/J3DGraphAnimator/J3DAnimation.cpp"),
+            Object(Modded, "JSystem/J3DGraphAnimator/J3DAnimation.cpp"),
             Object(MatchingFor(ALL_GCN), "JSystem/J3DGraphAnimator/J3DMaterialAnm.cpp"),
             Object(NonMatching, "JSystem/J3DGraphAnimator/J3DSkinDeform.cpp"),
             Object(MatchingFor(ALL_GCN), "JSystem/J3DGraphAnimator/J3DCluster.cpp"),
@@ -1459,29 +1465,29 @@ config.libs = [
             Object(MatchingFor("ShieldD"), "revolution/os/OS.c"),
             Object(MatchingFor("ShieldD"), "revolution/os/OSAddress.c"),
             Object(MatchingFor("ShieldD"), "revolution/os/OSAlarm.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSAlloc.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSArena.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSAudioSystem.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSCache.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSAlloc.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSArena.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSAudioSystem.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSCache.c"),
             Object(MatchingFor("ShieldD"), "revolution/os/OSContext.c"),
             Object(NonMatching, "revolution/os/OSError.c"),
             Object(NonMatching, "revolution/os/OSExec.c"),
             Object(NonMatching, "revolution/os/OSFatal.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSFont.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSInterrupt.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSLink.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSMessage.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSFont.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSInterrupt.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSLink.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSMessage.c"),
             Object(MatchingFor("ShieldD"), "revolution/os/OSMemory.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSMutex.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSMutex.c"),
             Object(MatchingFor("ShieldD"), "revolution/os/OSReboot.c"),
             Object(MatchingFor("ShieldD"), "revolution/os/OSReset.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSRtc.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSRtc.c"),
             Object(MatchingFor("ShieldD"), "revolution/os/OSStopwatch.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSSync.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSSync.c"),
             Object(NonMatching, "revolution/os/OSThread.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSTime.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSUtf.c"),
-            Object(MatchingFor("ShieldD"), "revolution/os/OSIpc.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSTime.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSUtf.c"),
+            Object(MatchingFor("ShieldD", "RZDE01_00"), "revolution/os/OSIpc.c"),
             Object(NonMatching, "revolution/os/OSStateTM.c"),
             Object(NonMatching, "revolution/os/OSPlayRecord.c"),
             Object(MatchingFor("ShieldD"), "revolution/os/OSStateFlags.c"),
@@ -1759,7 +1765,7 @@ config.libs = [
     ActorRel(MatchingFor(ALL_GCN), "d_a_npc_henna"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_npc_kakashi"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_npc_kkri"),
-    ActorRel(MatchingFor(ALL_GCN), "d_a_npc_kolin"),
+    ActorRel(Modded, "d_a_npc_kolin"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_npc_maro"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_npc_taro"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_npc_tkj"),
@@ -1822,7 +1828,7 @@ config.libs = [
     ActorRel(MatchingFor(ALL_GCN), "d_a_b_gnd"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_b_go"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_b_gos"),
-    ActorRel(MatchingFor(ALL_GCN), "d_a_b_mgn"),
+    ActorRel(Modded, "d_a_b_mgn"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_b_ob"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_b_oh"),
     ActorRel(MatchingFor(ALL_GCN), "d_a_b_oh2"),
