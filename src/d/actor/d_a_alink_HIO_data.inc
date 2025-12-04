@@ -1592,12 +1592,12 @@ const daAlinkHIO_boom_c1 daAlinkHIO_boom_c0::m = {
     0,
     1.0f * DELTA_TIME,
     3.0f,
-    60.0f * DELTA_TIME,
-    60.0f * DELTA_TIME,
+    60.0f,
+    60.0f,
     2000.0f,
     3000.0f,
     3000.0f,
-    40.0f * DELTA_TIME,
+    40.0f,
     1.1f * DELTA_TIME, // Boomerang cursor hover/pulse speed
     1.1f * DELTA_TIME,  // Boomerang cursor locked-in rotation speed
 };
